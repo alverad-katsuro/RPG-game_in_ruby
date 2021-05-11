@@ -1,0 +1,25 @@
+hero = Sprite.new(
+    './assets/tudo_165_165.png',
+    #'E:\Meus Arquivos\Downloads\sprt.png',
+    width: 165,
+    height: 165,
+    clip_width: 165,
+    x: 0,
+    y: 0,
+    clip_height: 165,
+    time: 40,
+    animations: {
+                walk_top: (create_movimente(qt_frames: 30, coluna: 0, linha: 2, width: 165, desloc_width: 1.5, height: 165)),
+                walk_bottom: (create_movimente(qt_frames: 30, coluna: 0, linha: 8, width: 165, height: 165)),
+                walk_left: (create_movimente(qt_frames: 30, coluna: 0, linha: 14, width: 165, height: 165)),
+                walk_rigth: (create_movimente(qt_frames: 30, coluna: 0, linha: 21, width: 165, height: 165)),
+                stop_top: (create_movimente(qt_frames: 30, coluna: 0, linha: 1, width: 165, desloc_width: 1, height: 165)),
+                stop_bottom: (create_movimente(qt_frames: 30, coluna: 0, linha: 7, width: 165, height: 165)),
+                stop_left: (create_movimente(qt_frames: 30, coluna: 0, linha: 13, width: 165, height: 165)),
+                stop_rigth: (create_movimente(qt_frames: 30, coluna: 0, linha: 20, width: 165, height: 165)),
+                attack_top: (create_movimente(qt_frames: 14, coluna: 0, linha: 3, width: 165, desloc_width: 1.5, height: 165)),
+                attack_bottom: (create_movimente(qt_frames: 14, coluna: 0, linha: 9, width: 165, height: 165)),
+                attack_left: (create_movimente(qt_frames: 14, coluna: 0, linha: 14, width: 165, height: 165)),
+                attack_rigth: (create_movimente(qt_frames: 14, coluna: 0, linha: 15, width: 165, height: 165)),
+              }
+  )
