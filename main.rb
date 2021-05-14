@@ -19,78 +19,99 @@ end
 
 
 hero = Graphics::Hero.new
-hero.play animation: :stop_bottom
+
+hero.play animation: :stop_bottom, loop: true
+
+keyboard_inputs = []
+mouse_inputs = []
 
 on :key_held do |event|
-    case event.key
-      when 'a'
-        hero.play animation: :walk_left, loop: false
-      when 'd'
-        hero.play animation: :walk_rigth, loop: false
-      when 'w'
-        hero.play animation: :walk_top, loop: false
-      when 's'
-        hero.play animation: :walk_bottom, loop: false
+  if hero.action_now == :none
+    keyboard_inputs << event.key
+      if keyboard_inputs.size == 4
+        keyboard_inputs.pop(2).each_slice(2) do |k1, k2|
+        case k1
+        when 'a'
+          hero.play animation: :walk_left, loop: false
+          hero.direction direction: :left
+          hero.x += -2
+          hero.y += -2 if k2 == "w"
+          hero.y += 2 if k2 == "s"
+        when 'd'
+          hero.play animation: :walk_rigth, loop: false
+        hero.direction direction: :rigth
+          hero.x += 2
+          hero.y += -2 if k2 == "w"
+          hero.y += 2 if k2 == "s"
+        when 'w'
+          hero.play animation: :walk_top, loop: false
+          hero.direction direction: :top
+          hero.y += -2
+          hero.x += -2 if k2 == "a"
+          hero.x += 2 if k2 == "d"
+        when 's'
+          hero.play animation: :walk_bottom, loop: false
+          hero.direction direction: :bottom
+          hero.y += 2
+          hero.x += -2 if k2 == "a"
+          hero.x += 2 if k2 == "d"
+        end
+      end
     end
+  end
 end
-
+    
 on :key_up do |event|
-  case event.key
+  if hero.action_now == :none
+    case event.key
     when 'a'
       hero.play animation: :stop_left, loop: true
-      hero.direction direction: :left
+      hero.time_attack = Time.new
     when 'd'
       hero.play animation: :stop_rigth, loop: true
-      hero.direction direction: :rigth
+      hero.time_attack = Time.new
     when 'w'
       hero.play animation: :stop_top, loop: true
-      hero.direction direction: :top
+      hero.time_attack = Time.new
     when 's'
       hero.play animation: :stop_bottom, loop: true
-      hero.direction direction: :bottom
+      hero.time_attack = Time.new
+    end
   end
 end
 
 on :mouse_down do |event|
-  p event
   case event.button
-    when :left
-      if hero.direction_now == :left
-        hero.play animation: :attack_left, loop: false
-      elsif hero.direction_now == :rigth
-        hero.play animation: :attack_rigth, loop: false
-      elsif hero.direction_now == :top
-        hero.play animation: :attack_top, loop: false
-      elsif hero.direction_now == :bottom
-        hero.play animation: :attack_bottom, loop: false
-      end
-    when :rigth
-      #hero.play animation: :stop_rigth, loop: true
-    when :x1
-      #hero.play animation: :stop_top, loop: true
-    when :x2
-      #hero.play animation: :stop_bottom, loop: true
-  end
-end
-
-def test hero
-  if hero.action_now == :none
-    case action_now
-      when :left
-        hero.play animation: :stop_left, loop: true
-      when :rigth
-        hero.play animation: :stop_rigth, loop: true
-      when :top
-        hero.play animation: :stop_top, loop: true
-      when :bottom
-        hero.play animation: :stop_bottom, loop: true 
+  when :left
+    if hero.direction_now == :left
+      hero.play animation: :attack_left, loop: false
+      hero.time_attack = Time.now
+      hero.action(action: :attacking)
+    elsif hero.direction_now == :rigth
+      hero.play animation: :attack_rigth, loop: false
+      hero.time_attack = Time.now
+      hero.action action: :attacking
+    elsif hero.direction_now == :top
+      hero.play animation: :attack_top, loop: false
+      hero.time_attack = Time.now
+      hero.action action: :attacking
+    elsif hero.direction_now == :bottom
+      hero.play animation: :attack_bottom, loop: false
+      hero.time_attack = Time.now
+      hero.action action: :attacking
     end
+  when :rigth
+    #hero.play animation: :stop_rigth, loop: true
+  when :x1
+    #hero.play animation: :stop_top, loop: true
+  when :x2
+    #hero.play animation: :stop_bottom, loop: trueaaaaaaaaaa
   end
 end
 
-time_start = Time.now + 10
 
 update do
+  hero.atack ##verifica se pode andar
 end
 
 show
