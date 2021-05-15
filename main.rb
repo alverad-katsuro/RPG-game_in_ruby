@@ -1,6 +1,10 @@
 require 'Ruby2d'
 require_relative './lib/characters/warrior.rb'
-require_relative './lib/background/fundo.rb'
+require_relative './lib/background/mountain_close.rb'
+require_relative './lib/background/rocks.rb'
+require_relative './lib/background/sky.rb'
+require_relative './lib/background/sun.rb'
+require_relative './lib/background/road.rb'
 
 set(
     title: "Demo",
@@ -13,13 +17,30 @@ set(
 )
 
 hero = Graphics::Hero.new
-background = Graphics::Background.new
-
+$background = Graphics::Mountain_close.new
+$rocks = Graphics::Rocks.new
+sky = Graphics::Sky.new
+$sun = Graphics::Sun.new
+$road = Graphics::Road.new
 hero.play animation: :stop_bottom, loop: true
-background.add
 
 keyboard_inputs = []
 mouse_inputs = []
+
+def moviment_scenery hero
+  case hero.direction_now
+  when :rigth
+    $background.x += -0.4
+    $rocks.x += -0.1
+    $sun.x += -0.2
+    $road.x += -0.2
+    $sun.y += -0.08
+  when :left
+    $background.x += 0.4
+    $road.x += -0.2
+    $rocks.x += +0.1
+  end
+end
 
 
 
@@ -34,7 +55,7 @@ on :key_held do |event|
           hero.play animation: :walk_left, loop: false
           hero.direction direction: :left
           hero.x += -2
-          background.x += 0.4
+          moviment_scenery(hero)
           case k2
           when 'w'
             hero.y += -2
@@ -46,7 +67,7 @@ on :key_held do |event|
           hero.play animation: :walk_rigth, loop: false
           hero.direction direction: :rigth
           hero.x += 2
-          background.x += -0.4
+          moviment_scenery(hero)
           case k2
           when 'w'
             hero.y += -2
