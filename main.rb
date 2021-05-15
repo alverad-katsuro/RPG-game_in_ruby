@@ -1,5 +1,6 @@
 require 'Ruby2d'
 require_relative './lib/characters/warrior.rb'
+require_relative './lib/background/fundo.rb'
 
 set(
     title: "Demo",
@@ -11,73 +12,103 @@ set(
     diagnostics: true
 )
 
-##create_movimente - quantidade de frames, a coluna do frame, a linha do frame, a largura, o deslocamento relativo se houver erro na coordenada x, a altura do frame
-def create_movimente(qt_frames:0, coluna:0, linha:0, width:0, desloc_width:0, height:0)
-  Array.new(qt_frames) {|range| {x: ((range + coluna) * width + 1 + desloc_width*range), y: (linha * height +1) , width: width, height: height}}
-end
-
-
-
 hero = Graphics::Hero.new
+background = Graphics::Background.new
 
 hero.play animation: :stop_bottom, loop: true
+background.add
 
 keyboard_inputs = []
 mouse_inputs = []
 
+
+
 on :key_held do |event|
-  if hero.action_now == :none
+  if hero.action_now == :none || hero.action_now == :moving
     keyboard_inputs << event.key
       if keyboard_inputs.size == 4
         keyboard_inputs.pop(2).each_slice(2) do |k1, k2|
         case k1
         when 'a'
+          hero.action action: :moving
           hero.play animation: :walk_left, loop: false
           hero.direction direction: :left
           hero.x += -2
-          hero.y += -2 if k2 == "w"
-          hero.y += 2 if k2 == "s"
+          background.x += 0.4
+          case k2
+          when 'w'
+            hero.y += -2
+          when 's'
+            hero.y += 2
+          end
         when 'd'
+          hero.action action: :moving
           hero.play animation: :walk_rigth, loop: false
-        hero.direction direction: :rigth
+          hero.direction direction: :rigth
           hero.x += 2
-          hero.y += -2 if k2 == "w"
-          hero.y += 2 if k2 == "s"
+          background.x += -0.4
+          case k2
+          when 'w'
+            hero.y += -2
+          when 's'
+            hero.y += 2
+          end
         when 'w'
+          hero.action action: :moving
           hero.play animation: :walk_top, loop: false
           hero.direction direction: :top
           hero.y += -2
-          hero.x += -2 if k2 == "a"
-          hero.x += 2 if k2 == "d"
+          case k2
+          when 'a'
+            hero.x += -2
+          when 'd'
+            hero.x += 2
+          end
         when 's'
+          hero.action action: :moving
           hero.play animation: :walk_bottom, loop: false
           hero.direction direction: :bottom
           hero.y += 2
-          hero.x += -2 if k2 == "a"
-          hero.x += 2 if k2 == "d"
+          case k2
+          when 'a'
+            hero.x += -2
+          when 'd'
+            hero.x += 2
+          end
         end
       end
     end
   end
 end
     
+def moviment_stop()
+  case action_now
+  when :left
+    hero.play animation: :stop_left, loop: true
+  when :rigth
+    hero.play animation: :stop_rigth, loop: true
+  when :top
+    hero.play animation: :stop_top, loop: true
+  when :bottom
+    hero.play animation: :stop_bottom, loop: true
+  end
+end
+
 on :key_up do |event|
-  if hero.action_now == :none
     case event.key
     when 'a'
       hero.play animation: :stop_left, loop: true
-      hero.time_attack = Time.new
+      hero.action action: :none
     when 'd'
       hero.play animation: :stop_rigth, loop: true
-      hero.time_attack = Time.new
+      hero.action action: :none
     when 'w'
       hero.play animation: :stop_top, loop: true
-      hero.time_attack = Time.new
+      hero.action action: :none
     when 's'
       hero.play animation: :stop_bottom, loop: true
-      hero.time_attack = Time.new
+      hero.action action: :none
     end
-  end
 end
 
 on :mouse_down do |event|

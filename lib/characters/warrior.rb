@@ -9,11 +9,10 @@ class Graphics
             './assets/tudo_165_165.png',
             width: 165,
             height: 165,
-            clip_width: 165,
             x: (Window.width)/2-80,
             y: (Window.height)/2-50,
-            clip_height: 165,
             time: 30,
+            z: 5,
             animations: {
               walk_top: (create_movimente(qt_frames: 30, coluna: 0, linha: 2, width: 165, desloc_width: 1.5, height: 165)),
               walk_bottom: (create_movimente(qt_frames: 30, coluna: 0, linha: 8, width: 165, height: 165)),
@@ -34,7 +33,8 @@ class Graphics
         @action_now = :none
         @time_attack = Time.now
       end
-
+      
+      ##create_movimente - quantidade de frames, a coluna do frame, a linha do frame, a largura, o deslocamento relativo se houver erro na coordenada x, a altura do frame
       def create_movimente(qt_frames:0, coluna:0, linha:0, width:0, desloc_width:0, height:0)
         Array.new(qt_frames) {|range| {x: ((range + coluna) * width + 1 + desloc_width*range), y: (linha * height +1) , width: width, height: height}}
       end
@@ -46,7 +46,7 @@ class Graphics
       def action (action:)
         @action_now = action
       end
-
+            
       def atack
         if @action_now == :attacking && (Time.now - @time_attack > 0.5)
           @time_attack = 0
@@ -56,8 +56,3 @@ class Graphics
     end
 end
 
-
-      #def update!(logic)
-      #  self.x = logic.x
-      #  self.y = logic.y
-      #end
