@@ -1,12 +1,23 @@
-def moviment_stop()
-  case action_now
-  when :left
-    hero.play animation: :stop_left, loop: true
-  when :rigth
-    hero.play animation: :stop_rigth, loop: true
-  when :top
-    hero.play animation: :stop_top, loop: true
-  when :bottom
-    hero.play animation: :stop_bottom, loop: true
-  end
+class Test
+    def saida1
+        p 'saida1'
+    end
+    def saida2
+        p 'saida2'
+    end
+    def saida3
+        p 'saida3'
+    end
+    private
+    def saida4
+        p 'saida4'
+    end
+    public
+    def saida5
+        saida4()
+    end
 end
+
+a = Test.new
+a.saida5
+

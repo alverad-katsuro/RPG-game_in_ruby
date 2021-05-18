@@ -7,7 +7,7 @@ class Graphics
             './assets/tudo_165_165.png',
             width: 165,
             height: 165,
-            x: (Window.width) * 0.05,
+            x: (Window.width) * 0.1,
             y: (Window.height) * 0.6,
             time: 30,
             z: 5,

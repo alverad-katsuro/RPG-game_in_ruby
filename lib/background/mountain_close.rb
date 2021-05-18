@@ -6,9 +6,10 @@ class Graphics
             super(
                 './assets/rock_2_3x.png',
                 x: 0,
-                y: -250,
-                height: Window.height,
-                clip_height: 1080,
+                y: 0,
+                height: Window.height * 0.7,
+                clip_height: 1080 - 290,
+                clip_y: 290,
                 z: 3,
             )
         end

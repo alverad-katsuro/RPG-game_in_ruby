@@ -7,18 +7,20 @@ require_relative './lib/background/sun.rb'
 require_relative './lib/background/road.rb'
 require_relative './lib/logic/logic_warrior.rb'
 require_relative './lib/logic/logic_scenery.rb'
+require_relative './lib/logic/logic_rectangle.rb'
 
 set(
     title: "Demo",
     resizable: true,
     background: 'white',
-    width: 1366,
+    width: 1280,
     height: 728,
     fullscreen: false,
     diagnostics: true
 )
 
-scenery = Logic::Scenery.new sun: Graphics::Sun.new, road: Graphics::Road.new, rocks: Graphics::Rocks.new, mountain_close: Graphics::Mountain_close.new, sky: Graphics::Sky.new
+
+scenery = Logic::Scenery.new sun: Graphics::Sun.new, road: Graphics::Road.new, rocks: Graphics::Rocks.new, mountain_close: Graphics::Mountain_close.new, sky: Graphics::Sky.new, ancoras: ancoras
 
 hero = Logic::Hero.new hero: Graphics::Hero.new, scenery: scenery
 
@@ -46,13 +48,13 @@ on :mouse_down do |event|
   when :x1
     #hero.play animation: :stop_top, loop: true
   when :x2
-    #hero.play animation: :stop_bottom, loop: trueaaaaaaaaaa
+    #hero.play animation: :stop_bottom, loop: true
   end
 end
 
-
 update do
   hero.atack ##verifica se pode andar
+  hero.att_scenery
 end
 
 show
