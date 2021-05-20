@@ -1,14 +1,12 @@
 class Logic
     class Scenery
         attr_reader :sky, :sun, :road, :rocks, :mountain_close
-        def initialize sun:, road:, rocks:, mountain_close:, sky:, ancoras:
+        def initialize sun:, road:, rocks:, mountain_close:, sky:
             @sky = sky
             @sun = sun
             @road = road
             @rocks = rocks
             @mountain_close = mountain_close
-			@ancora_left = ancoras[0]
-			@ancora_rigth = ancoras[1]
         end
 
         def next_scenery direction:

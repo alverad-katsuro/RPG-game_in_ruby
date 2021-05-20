@@ -1,7 +1,7 @@
 class Logic
     class Hero
         attr_accessor :time_attack, :speed
-        attr_reader :direction_now, :action_now, :attacking, :hero
+        attr_reader :direction_now, :action_now, :hero
         def initialize hero:, scenery:, speed:1.5*10
             @hero = hero
             @speed = speed
@@ -11,29 +11,29 @@ class Logic
             @time_attack = Time.now
         end
 
-        ##### Modifica a coordenada y do heroi
-        def hero_y_modi (vertical:, dash: 1)
+        #### Modifica a coordenada y do heroi
+        def hero_y_modi (vertical:, dash: 1.0)
             if vertical == :top
-                if (@hero.y) >= @scenery.road.y - 50
-                    @hero.y += dash * @speed
+                if (@hero.y) >= Window.height*0.6
+                    @hero.y += @speed * dash
                 end
             end
             if vertical == :bottom
-                if @hero.y <= @scenery.road.height
+                if @hero.y <= (Window.height) -150
                     @hero.y += @speed * dash
                 end
             end
         end
-
+    
         #### Modifica a coordenada x do heroi
-        def hero_x_modi (horizontal:, dash: 1)
+        def hero_x_modi (horizontal:, dash: 1.0)
             if horizontal == :left
-                if (@hero.x) + 45 >= @scenery.road.clip_x  
+                if (@hero.x) + 45 >= 0
                     @hero.x += @speed * dash
                 end
             end
             if horizontal == :rigth
-                if @hero.x <= @scenery.road.clip_width
+                if @hero.x <= (Window.width) - 165
                     @hero.x += @speed * dash
                 end
             end
@@ -102,7 +102,6 @@ class Logic
             direction(direction: :left)
             @hero.play(animation: :walk_left, loop: false)
             hero_x_modi(horizontal: :left, dash: -1)
-            test()
         end
       
         def move_hero_rigth
@@ -110,15 +109,9 @@ class Logic
             direction(direction: :rigth)
             @hero.play(animation: :walk_rigth, loop: false)
             hero_x_modi(horizontal: :rigth, dash: 1)
-            test()
         end
         ##### FIM DA LOGICA DOS MOVIMENTOS
-        def test
-            puts "#{@hero.clip_x} #{@scenery.road.clip_width} #{}"
-            if @hero.clip_x <= @scenery.road.clip_width
-                @scenery.moviment_scenery(direction_now: @direction_now, speed: @speed)
-            end
-        end
+
 
         ##### CONTROLE DO HEROI PARADO
         def control_hero_stop event
@@ -192,18 +185,6 @@ class Logic
                 @time_attack = 0
                 @action_now = :none
                 stop_hero_animation
-            end
-        end
-
-        ##### PROXIMO CENARIO
-        def att_scenery
-            if (@hero.x >= Window.width * 0.9) && (@scenery.road.x * - 1 <= @scenery.road.clip_width * 2/3)
-                @hero.x = 0
-                @scenery.next_scenery direction: :rigth
-            end
-            if (@hero.x <= -50) && (@scenery.road.x) * -1 >= Window.width
-                @hero.x = Window.width * 0.87
-                @scenery.next_scenery direction: :left
             end
         end
     end

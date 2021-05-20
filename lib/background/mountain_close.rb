@@ -4,7 +4,7 @@ class Graphics
     class Mountain_close < Sprite
         def initialize
             super(
-                './assets/rock_2_3x.png',
+                './assets/mountain.png',
                 x: 0,
                 y: 0,
                 height: Window.height * 0.7,

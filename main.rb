@@ -1,4 +1,4 @@
-require 'Ruby2d'
+require 'ruby2d'
 require_relative './lib/characters/warrior.rb'
 require_relative './lib/background/mountain_close.rb'
 require_relative './lib/background/rocks.rb'
@@ -20,7 +20,7 @@ set(
 )
 
 
-scenery = Logic::Scenery.new sun: Graphics::Sun.new, road: Graphics::Road.new, rocks: Graphics::Rocks.new, mountain_close: Graphics::Mountain_close.new, sky: Graphics::Sky.new, ancoras: ancoras
+scenery = Logic::Scenery.new sun: Graphics::Sun.new, road: Graphics::Road.new, rocks: Graphics::Rocks.new, mountain_close: Graphics::Mountain_close.new, sky: Graphics::Sky.new
 
 hero = Logic::Hero.new hero: Graphics::Hero.new, scenery: scenery
 
@@ -54,7 +54,6 @@ end
 
 update do
   hero.atack ##verifica se pode andar
-  hero.att_scenery
 end
 
 show
