@@ -11,8 +11,8 @@ class Logic
 
         def next_scenery direction:
 			case direction
-			when :rigth
-				moviment_scenery(direction_now: :rigth, speed: Window.width)
+			when :right
+				moviment_scenery(direction_now: :right, speed: Window.width)
 			when :left
 				moviment_scenery(direction_now: :left, speed: Window.width)
 			end
@@ -21,7 +21,7 @@ class Logic
         def moviment_scenery(direction_now:, speed:)
             speed = speed * 1.4
 			case direction_now
-            when :rigth
+            when :right
 				@mountain_close.x += -speed - 0.7
 				@rocks.x += -speed - 0.3
 				@road.x += -speed

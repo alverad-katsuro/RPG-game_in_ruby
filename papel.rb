@@ -1,16 +1,22 @@
-module Test
-    module Saida
-        def saida
-            p 'sai'
-        end
-    end
-    
-    private: Privado
-    module Privado
-        def priva_sai
-            p 'sai da privada'
-        end
+class Test
+    attr_reader :x
+    def initialize x 
+        @x = x
     end
 end
 
-Test::Privado.priva_sai
+class B
+    def saida
+        p 'sai'
+    end
+end
+
+test = Test.new B.new
+
+def chama_saida test_class
+    test_class.x.saida
+    #test_class.map(&:x.saida)
+end
+
+chama_saida test
+    

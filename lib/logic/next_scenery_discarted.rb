@@ -9,7 +9,7 @@ end
         def att_scenery
             if (@hero.x >= Window.width * 0.9) && (@scenery.road.x * - 1 <= @scenery.road.clip_width * 2/3)
                 @hero.x = 0
-                @scenery.next_scenery direction: :rigth
+                @scenery.next_scenery direction: :right
             end
             if (@hero.x <= -50) && (@scenery.road.x) * -1 >= Window.width
                 @hero.x = Window.width * 0.87

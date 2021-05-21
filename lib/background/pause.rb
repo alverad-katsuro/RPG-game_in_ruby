@@ -1,15 +1,15 @@
 require 'ruby2d'
 
 class Graphics
-    class Ancora < Rectangle
+    class Pause < Rectangle
         def initialize
             super(
                 x: 0,
-                y: Window.height * 0.5,
-                width: 2,
-                height: 10,
+                y: 0,
+                color: [0,0,0,0.5],
+                width: Window.width,
+                height: Window.height,
                 z:20,
-                color: 'teal'
             )            
         end
     end

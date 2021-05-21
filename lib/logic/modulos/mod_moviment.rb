@@ -22,7 +22,7 @@ class Logic
                         @animation_characters.x += (speed * dash)
                     end
                 end
-                if horizontal == :rigth
+                if horizontal == :right
                     if x <= (Window.width) - 165
                         @animation_characters.x += (speed * dash)
                     end
@@ -56,17 +56,17 @@ class Logic
 
             def move_hero_rigth
                 action(action: :moving)
-                direction(direction: :rigth)
+                direction(direction: :right)
                 play(animation: :walk_rigth, loop: false)
-                hero_x_modi(horizontal: :rigth, dash: 1)
+                hero_x_modi(horizontal: :right, dash: 1)
             end
             ##### FIM DA LOGICA DOS MOVIMENTOS
 
 
             ##### CONTROLE DO HEROI PARADO
             def control_hero_stop event
-                if 'adws'.include? event
-                    stop_hero_animation
+                if ((@key_map.values).include? event) && (action_now != :attacking)
+                    stop_hero_animation()
                     action action: :none
                 end
             end
@@ -80,7 +80,7 @@ class Logic
                         play(animation: :stop_bottom, loop: true)
                     when :left
                         play(animation: :stop_left, loop: true)
-                    when :rigth
+                    when :right
                         play(animation: :stop_rigth, loop: true)
                 end
             end
@@ -102,7 +102,7 @@ class Logic
                 when :left
                     play(animation: :attack_left, loop: false)
                     hero_attack_modulo()
-                when :rigth
+                when :right
                     play(animation: :attack_rigth, loop: false)
                     hero_attack_modulo()
                 when :top
@@ -124,7 +124,7 @@ class Logic
             public
             ##### CONTADOR do TEMPO DE ATTACK
             def atack
-                if action_now == :attacking && (Time.now - time_attack > 0.5)
+                if action_now == :attacking && ((Time.now - time_attack) > 0.5)
                     @stats_basic.time_attack = 0
                     @stats_basic.action_now = :none
                     stop_hero_animation()
