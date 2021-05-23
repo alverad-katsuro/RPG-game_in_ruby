@@ -1,15 +1,18 @@
 require 'ruby2d'
 
 class Graphics
-    class Cloud < Sprite
+    class CloudBig < Sprite
         def initialize
             super(
-                './assets/rock_2_3x.png',
+                './assets/clouds_big.png',
                 x: 0,
-                y: -250,
+                y: 0,
                 height: Window.height,
-                clip_height: 1080,
-                z: 0,
+                width: Window.width,
+                clip_width: 1920,
+                clip_x: 1920,
+                a: 0.5,
+                z: 1,
             )
         end
     end

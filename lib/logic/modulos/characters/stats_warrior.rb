@@ -1,6 +1,6 @@
 class Logic
     class Hero
-        attr_accessor :time_attack, :speed, :action_now, :direction_now, :life, :deaths
+        attr_accessor :time_attack, :speed, :action_now, :direction_now, :life, :deaths, :vivo
         def initialize
             @speed = 15.0
             @direction_now = :bottom

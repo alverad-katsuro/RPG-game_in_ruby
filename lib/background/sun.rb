@@ -5,10 +5,10 @@ class Graphics
         def initialize
             super(
                 './assets/sun.png',
-                x: 0,
-                y: 0,
-                height: Window.height,
-                clip_height: 1080,
+                x: 15,
+                y: 200,
+                height: 560 * 0.5,
+                width: 560 * 0.5,
                 z: 1,
             )
         end
