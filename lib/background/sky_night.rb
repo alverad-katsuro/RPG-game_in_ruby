@@ -1,16 +1,17 @@
 require 'ruby2d'
 
 class Graphics
-    class Tela < Rectangle
+    class Sky_Night < Sprite
         def initialize
             super(
+                './assets/sky_night.png',
                 x: 0,
                 y: 0,
-                width: Window.width,
                 height: Window.height,
-                z:8,
-                color: [0,0,0,0.7], 
-            )            
+                clip_height: 1080,
+                z: 0,
+                opacity: 0,
+            )
         end
     end
 end

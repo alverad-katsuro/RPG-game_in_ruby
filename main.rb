@@ -2,6 +2,7 @@ require 'ruby2d'
 require_relative './lib/background/mountain_close.rb'
 require_relative './lib/background/rocks.rb'
 require_relative './lib/background/sky.rb'
+require_relative './lib/background/sky_night.rb'
 require_relative './lib/background/sun.rb'
 require_relative './lib/background/moon.rb'
 require_relative './lib/background/road.rb'
@@ -38,12 +39,13 @@ scenery.add(:road, Graphics::Road.new)
 scenery.add(:rocks, Graphics::Rocks.new)
 scenery.add(:mountain_close, Graphics::Mountain_close.new)
 scenery.add(:sky, Graphics::Sky.new)
+scenery.add(:sky_night, Graphics::Sky_Night.new)
 scenery.add(:clouds_big, Graphics::CloudBig.new)
 scenery.add(:clouds_med, Graphics::CloudMed.new)
 scenery.add(:cloud_small, Graphics::CloudSmall.new)
 scenery.add(:tela, Graphics::Tela.new)
 #### FIM ####
-scenery.manha!
+
 
 #### Tela do pause ####
 pause = Graphics::Pause.new
@@ -82,9 +84,12 @@ player_two.add_modulos modulos: [
 
 ###### PLAYER CONSTRUC END ######
 
-### Adicionando os jogadores a logica do Game
-logic = Logic.new player_one: player_one, player_two: player_two
-
+##### Adicionando os componentes ao Game ######
+game = Logic.new
+game.add player_one: player_one
+game.add player_two: player_two
+game.add scenery: scenery
+#### FIM ####
 
 #### Movimentos capturados ####
 keyboard_inputs_1 = []
@@ -101,8 +106,8 @@ on :key_held do |event|
   elsif (['left', 'right', 'up', 'down'].include? event.key) && (keyboard_inputs_2.size) < 4
     keyboard_inputs_2 << event.key
   end
-  logic.action_player_one(k_b_1: keyboard_inputs_1)
-  logic.action_player_two(k_b_2: keyboard_inputs_2)
+  game.action_player_one(k_b_1: keyboard_inputs_1)
+  game.action_player_two(k_b_2: keyboard_inputs_2)
 end
 
 on :key_down do |event|
@@ -120,7 +125,7 @@ on :key_down do |event|
 end
 
 on :key_up do |event|
-	logic.stop? event
+	game.stop? event
 end
 
 ##### FIM DO KEYBOARD #####
@@ -128,7 +133,7 @@ end
 ###### FIM DA CAPTURA ######
 
 update do
-  logic.update! 
+  game.update! 
   scenery.update!
 end 
 

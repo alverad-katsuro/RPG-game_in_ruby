@@ -6,7 +6,7 @@ class Graphics
             super(
                 './assets/sky.png',
                 x: 0,
-                y: -250,
+                y: 0,
                 height: Window.height,
                 clip_height: 1080,
                 z: 0,

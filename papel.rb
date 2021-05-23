@@ -2,6 +2,7 @@ require 'ruby2d'
 require_relative './lib/background/mountain_close.rb'
 require_relative './lib/background/rocks.rb'
 require_relative './lib/background/sky.rb'
+require_relative './lib/background/sky_night.rb'
 require_relative './lib/background/sun.rb'
 require_relative './lib/background/moon.rb'
 require_relative './lib/background/road.rb'
@@ -38,13 +39,13 @@ scenery.add(:road, Graphics::Road.new)
 scenery.add(:rocks, Graphics::Rocks.new)
 scenery.add(:mountain_close, Graphics::Mountain_close.new)
 scenery.add(:sky, Graphics::Sky.new)
+scenery.add(:sky_night, Graphics::Sky_Night.new)
 scenery.add(:clouds_big, Graphics::CloudBig.new)
 scenery.add(:clouds_med, Graphics::CloudMed.new)
 scenery.add(:cloud_small, Graphics::CloudSmall.new)
 scenery.add(:tela, Graphics::Tela.new)
 #### FIM ####
 
-scenery.manha!
 update do
     scenery.update!
 end

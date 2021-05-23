@@ -1,18 +1,23 @@
 class Logic
 	attr_reader :player_one, :player_two
 
-	def initialize player_one:, player_two:
-		@player_one = player_one
-		@player_two = player_two
+	##### ADICIONA OS COMPONENTES BASICOS #####
+	def add(player_one: nil, player_two:nil , scenery:nil)
+		@player_one = player_one unless player_one == nil
+		@player_two = player_two unless player_two == nil
+		@scenery = scenery unless scenery == nil
 	end
+	#### FIM ####
 
 	##### METODOS QUE NECESSITAM SER EXECUTADOS 60x/segundos
 	def update!
 		attack? ##verifica se os jogadores podem atacar
 		alives? ##verifica se os nbs morreram
 		shadow!
+		@scenery.update!
 	end
 	#### FIM ####
+
 
 	##### CHAMADA DO MOVIMENTO DE PARADA #####
 	def stop? event

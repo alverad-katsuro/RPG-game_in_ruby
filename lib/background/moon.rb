@@ -5,11 +5,12 @@ class Graphics
         def initialize
             super(
                 './assets/moon.png',
-                x: 80,
-                y: 150,
+                y: 80,
                 height: 300 * 0.9,
                 width: 300 * 0.9,
-                z: 100,
+                x: -300*0.9,
+                z: 9,
+                opacity: 1,
             )
         end
     end

@@ -31,7 +31,7 @@ class Graphics
               hurt_top: (create_movimente(qt_frames: 14, coluna: 0, linha: 22, width: 165, height: 165)),
               hurt_bottom: (create_movimente(qt_frames: 14, coluna: 0, linha: 23, width: 165, height: 165)),
               hurt_left: (create_movimente(qt_frames: 14, coluna: 0, linha: 24, width: 165, height: 165)),
-              hurt_righ: (create_movimente(qt_frames: 14, coluna: 0, linha: 25, width: 165, height: 165)),
+              hurt_right: (create_movimente(qt_frames: 14, coluna: 0, linha: 25, width: 165, height: 165)),
             }
         )
         self.play(animation: :stop_bottom, loop: true)
