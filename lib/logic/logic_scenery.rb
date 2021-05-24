@@ -23,40 +23,44 @@ class Logic
         end
 
         def horarios
-            if (Time.now - @objects[:time]) <= 15 * 1
+            if (Time.now - @objects[:time]) <= 30
                 swuit_backgroud fator: -1
-            elsif ((Time.now) - @objects[:time]) > 15 * 1 && ((Time.now) - (@objects[:time]))<= 60
-                entardecer
-            elsif (Time.now - @objects[:time]) >= 135
+            elsif ((Time.now) - @objects[:time]) > 30 && ((Time.now) - (@objects[:time]))<= 150
+                amanhecer!
+            elsif (Time.now - @objects[:time]) > 150
                 anoitecer
-                if (Time.now - @objects[:time]) >=180
+                if (Time.now - @objects[:time]) >=195
                     moviment_moon
                     nuvem_opacity opacity: 1
-                    swuit_backgroud fator: -1 unless Time.now - @objects[:time] < 270
-                    (reload_clock; reload_moon_and_sun!) unless (Time.now - @objects[:time]) < 280
+                    swuit_backgroud fator: -1 unless Time.now - @objects[:time] < 285
+                    (reload_clock; reload_moon_and_sun!) unless (Time.now - @objects[:time]) < 295
                 end
             end
         end
 
-        def entardecer
-            if @objects[:tela].color.a > 0
-                escurecer? fator: -1
-                if @objects[:sun].y + 80 > 0
-                    moviment_sun
-                end
-            end
+        def amanhecer!
+            moviment_sun
+            escurecer?(fator: -1)
         end
 
-        def escurecer? (fator:)
-            if @objects[:tela].opacity <= 0.7 && @objects[:tela].opacity >= 0
-                @objects[:tela].opacity += 0.00035 * fator
+        def escurecer?(fator:1) ### 1 - escurece, -1 = amanhece
+            case fator
+            when 1
+                if @objects[:tela].opacity != 0.7
+                    @objects[:tela].opacity += 0.00040
+                    @objects[:tela].opacity = 0.7 unless @objects[:tela].opacity <= 0.7
+                end
+            when -1
+                if @objects[:tela].opacity != 0
+                    @objects[:tela].opacity += -0.00040
+                    @objects[:tela].opacity = 0 unless @objects[:tela].opacity >= 0
+                end
             end
         end
 
         def anoitecer
-            if @objects[:sun].y + @objects[:sun].height > 0
-                moviment_sun
-                @objects[:tela].color.a += 0.00004
+            if @objects[:sun].y + @objects[:sun].height < 0
+                escurecer?
                 swuit_backgroud
             end
             if @objects[:sun].y < 0 && (@objects[:moon].y + 100) > 0
@@ -73,13 +77,15 @@ class Logic
         end
 
         def moviment_sun
-            @objects[:sun].x += 0.1
-            @objects[:sun].y += -0.15
+            @objects[:sun].x += 0.2
+            @objects[:sun].y += -0.075
+            @objects[:sun].rotate += 0.05          
         end
 
         def moviment_moon
             @objects[:moon].x += 0.1
             @objects[:moon].y += -0.04
+            @objects[:moon].rotate += 0.05          
         end
 
         def mov_nuvem!

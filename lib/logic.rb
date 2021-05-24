@@ -2,10 +2,11 @@ class Logic
 	attr_reader :player_one, :player_two
 
 	##### ADICIONA OS COMPONENTES BASICOS #####
-	def add(player_one: nil, player_two:nil , scenery:nil)
+	def add(player_one: nil, player_two:nil , scenery:nil, historia:)
 		@player_one = player_one unless player_one == nil
 		@player_two = player_two unless player_two == nil
 		@scenery = scenery unless scenery == nil
+		@historia = historia unless scenery == nil
 	end
 	#### FIM ####
 

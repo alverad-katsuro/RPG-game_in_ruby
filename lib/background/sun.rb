@@ -5,7 +5,7 @@ class Graphics
         def initialize
             super(
                 './assets/sun.png',
-                x: 15,
+                x: -560*0.5,
                 y: 200,
                 height: 560 * 0.5,
                 width: 560 * 0.5,
