@@ -1,8 +1,8 @@
 class Logic
     module Controls
         module Auxiliar
-            Keyboard_Map_One = {left:'a', right:'d', up:'w', down:'s', attack:'g'}
-            Keyboard_Map_Two = {left:'left', right:'right', up:'up', down:'down', attack:'keypad 0'}
+            Keyboard_Map_One = {left:'a', right:'d', up:'w', down:'s', attack:'g', defend:'h'}
+            Keyboard_Map_Two = {left:'left', right:'right', up:'up', down:'down', attack:'keypad 0', defend:'keypad .'}
             ##### METODOS DE CONTROLES DE MOVIMENTO #####
 
             def modulo_keyboard(keyboard_inputs, key_map)
@@ -22,7 +22,9 @@ class Logic
                                 move_hero_bottom()
                                 moviment_k2_horizontal(k2: k2, key_map: key_map)
                             when key_map[:attack]
-                                hero_attack()                            
+                                hero_attack()  
+                            when key_map[:defend]
+                                hero_defend()                            
                         end
                     end
                 end
@@ -36,6 +38,8 @@ class Logic
                         hero_x_modi(horizontal: :right, dash: 0.3)
                     when key_map[:attack]
                         hero_attack()
+                    when key_map[:defend]
+                        hero_defend()   
                 end
             end
 
@@ -47,23 +51,17 @@ class Logic
                         hero_y_modi(vertical: :bottom, dash: 0.3)
                     when key_map[:attack]
                         hero_attack()     
+                    when key_map[:defend]
+                        hero_defend()
                 end
             end 
         end
 
-        module Controls_One_Keyboard
+        module Controls_Keyboard
             include Logic::Controls::Auxiliar
             ##### CONTROLES DE MOVIMENTO #####
             def control_moviment(kb_inputs:)
-                modulo_keyboard(kb_inputs, @key_map)
-            end
-        end
-
-        module Controls_Two_Keyboard
-            include Logic::Controls::Auxiliar
-            ##### CONTROLES DE MOVIMENTO #####
-            def control_moviment(kb_inputs:)
-                modulo_keyboard(kb_inputs, @key_map)
+                modulo_keyboard(kb_inputs, @objects[:key_map])
             end
         end
     end

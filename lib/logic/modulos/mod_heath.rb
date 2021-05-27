@@ -3,22 +3,24 @@ class Logic
         ##### vida do jogador
         def life_down
             down = -rand(5..10)
-            @stats_basic.life += down
+            @objects[:stats_basic].life += down
         end
 
         ##### verifica se ele o nb morreu
         def hero_alive?
-            if life <= 0 && vivo
+            if @objects[:stats_basic].life <= 0 && @objects[:stats_basic].vivo
                 death_animation()
-                @stats_basic.deaths += -1
-                @stats_basic.vivo = false
+                @objects[:stats_basic].deaths += +1
+                @objects[:stats_basic].vivo = false
+                false
             end
+            true
         end
 
         #### revive
-        def revive?
-            @animation_characters.add
-            @stats_basic.life = 100
+        def revive!
+            @objects[:stats_basic].life = 100
+            @objects[:stats_basic].vivo = true
         end
 
     end

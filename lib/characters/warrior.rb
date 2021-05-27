@@ -5,8 +5,8 @@ class Graphics
       def initialize
         super(
             './assets/tudo_165_165.png',
-            width: 165,
-            height: 165,
+            width: 165 * (Window.height * 0.0015),
+            height: 165 * (Window.height * 0.0015),
             x: (Window.width) * 0.1,
             y: (Window.height) * 0.6,
             time: 30,
@@ -32,14 +32,22 @@ class Graphics
               hurt_bottom: (create_movimente(qt_frames: 14, coluna: 0, linha: 23, width: 165, height: 165)),
               hurt_left: (create_movimente(qt_frames: 14, coluna: 0, linha: 24, width: 165, height: 165)),
               hurt_right: (create_movimente(qt_frames: 14, coluna: 0, linha: 25, width: 165, height: 165)),
+              defend_top: (create_movimente(qt_frames: 30, coluna: 0, linha: 26, width: 165, height: 165)),
+              defend_bottom: (create_movimente(qt_frames: 30, coluna: 0, linha: 27, width: 165, height: 165)),
+              defend_left: (create_movimente(qt_frames: 30, coluna: 0, linha: 28, width: 165, height: 165)),
+              defend_right: (create_movimente(qt_frames: 30, coluna: 0, linha: 29, width: 165, height: 165))
             }
         )
         self.play(animation: :stop_bottom, loop: true)
       end
       
       ##create_movimente - quantidade de frames, a coluna do frame, a linha do frame, a largura, o deslocamento relativo se houver erro na coordenada x, a altura do frame
-      def create_movimente(qt_frames:0, coluna:0, linha:0, width:0, desloc_width:0, height:0)
+      def create_movimente(qt_frames: 0, coluna: 0, linha: 0, width: 0, desloc_width: 0, height: 0)
         Array.new(qt_frames) {|range| {x: ((range + coluna) * width + 1 + desloc_width*range), y: (linha * height +1) , width: width, height: height}}
+      end
+
+      def localiza_frame(qt_frames: 0, x_inicial: 0, y_inicial: 0, coluna: 0, width: 0, desloc_width: 0, height: 0)
+        Array.new(qt_frames) {|range| {x: ((range + coluna) * width + 1 + desloc_width*range), y: y_inicial, width: width, height: height}}
       end
     end
 end

@@ -91,6 +91,10 @@ scenery.add(:cloud_small, Graphics::CloudSmall.new)
 scenery.add(:tela, Graphics::Tela.new)
 #### FIM ####
 
+on :key_held do |event|
+    p event.key
+end
+
 update do
     scenery.update!
 end

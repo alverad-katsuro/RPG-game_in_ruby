@@ -23,10 +23,10 @@ require_relative './lib/logic/modulos/mod_controls.rb'
 require_relative './lib/logic/modulos/mod_heath.rb'
 
 set(
-    title: "Demo",
-    resizable: true,
+    title: "Duelo",
+    resizable: false,
     background: 'white',
-    width: 1280,
+    width: 1366,
     height: 728,
     fullscreen: false,
     diagnostics: true
@@ -47,10 +47,16 @@ scenery.add(:cloud_small, Graphics::CloudSmall.new)
 scenery.add(:tela, Graphics::Tela.new)
 #### FIM ####
 
+##### MUSIC #####
+music = Music.new("./assets/songs/music.mp3")
+music.play
+#### FIM ####
+
+
 
 #### Tela do pause ####
-pause = Graphics::Pause.new
-pause.remove
+#pause = Graphics::Pause.new
+#pause.remove
 #### FIM ####
 
 ###### Construindo Players ######
@@ -58,14 +64,18 @@ pause.remove
 ### Player One ###
 hero_one = Graphics::Hero.new
 player_one = Logic::Player.new
-player_one.add animation_characters: hero_one
-player_one.add stats_basic: Logic::Hero.new
-player_one.add key_map: Logic::Controls::Auxiliar::Keyboard_Map_One
-player_one.add shadow: Graphics::Shadow.new
+player_one.add key: :animation, value: hero_one
+player_one.add key: :stats_basic, value: Logic::Hero.new
+player_one.add key: :key_map, value: Logic::Controls::Auxiliar::Keyboard_Map_One
+player_one.add key: :shadow, value: Graphics::Shadow.new
+player_one.add key: :songs_atk, value:[Sound.new("./assets/songs/atk01.mp3"), Sound.new("./assets/songs/atk02.mp3")]
+player_one.add key: :songs_defend, value:[Sound.new("./assets/songs/def01.mp3"), Sound.new("./assets/songs/def02.mp3"),
+                                          Sound.new("./assets/songs/def03.mp3"), Sound.new("./assets/songs/def04.mp3")
+                                          ]
 player_one.add_modulos modulos: [
-  Logic::Controls::Controls_One_Keyboard,
-  Logic::Characters::Hero, Logic::Heath
-  ]
+                                Logic::Controls::Controls_Keyboard,
+                                Logic::Characters::Hero, Logic::Heath
+                                ]
 #### FIM ####
 
 ### Player Two ###
@@ -73,31 +83,34 @@ hero_two = Graphics::Hero.new
 hero_two.x = Window.width - 200
 hero_two.color = [1, 0.5, 0.2, 1]
 player_two = Logic::Player.new
-player_two.add animation_characters: hero_two
-player_two.add stats_basic: Logic::Hero.new
-player_two.add key_map: Logic::Controls::Auxiliar::Keyboard_Map_Two
-player_two.add shadow: Graphics::Shadow.new
+player_two.add key: :animation, value: hero_two
+player_two.add key: :stats_basic, value: Logic::Hero.new
+player_two.add key: :key_map, value: Logic::Controls::Auxiliar::Keyboard_Map_Two
+player_two.add key: :shadow, value: Graphics::Shadow.new
+player_two.add key: :songs_atk, value:[Sound.new("./assets/songs/atk01.mp3"), Sound.new("./assets/songs/atk02.mp3")]
+player_two.add key: :songs_defend, value:[Sound.new("./assets/songs/def01.mp3"), Sound.new("./assets/songs/def02.mp3"),
+                                          Sound.new("./assets/songs/def03.mp3"), Sound.new("./assets/songs/def04.mp3")
+                                        ]
 player_two.add_modulos modulos: [
-  Logic::Controls::Controls_Two_Keyboard,
-  Logic::Characters::Hero, Logic::Heath
-  ]
+                                Logic::Controls::Controls_Keyboard,
+                                Logic::Characters::Hero, Logic::Heath
+                                ]
 #### FIM ####
 
 ###### PLAYER CONSTRUC END ######
 
 #### CRIANDO HISTORIA ####
 intro = "Era uma vez.....
-Dois Estados que estavam em uma guerra sangrenta.
-E para evitar o exterminio de todos seus cidadões, decidiram enviar gladiadores
-para decidir o futuro de seus respectivos paises.
-Foi decido que haveria 3 combates, quem ganhasse dois destes combates poderia
-fazer o que quiser com o outro estado, seja escravizar seja colonizar.
+Duas Nações que estavam em uma guerra sangrenta e para evitar o exterminio de todos
+seus cidadões, recrutados a força para guerra, decidiram enviar gladiadores para
+decidir o futuro de seus respectivos Estados. Foi decido que haveria 3 combates,
+quem ganhasse dois destes combates poderia fazer o que quiser com o outro estado,
+seja escravizar seja colonizar.
 
 Agora é sua oportunidade de defender sua Patria!!!!!!."
-first_round = "Fist Round"
+first_round = "First Round"
 second_round = "Second Round"
-three_round = "Three Round"
-final_round = "Final Round"
+three_round = "Final Round"
 placar_0_0 = "0 x 0"
 placar_1_0 = "1 x 0"
 placar_0_1 = "0 x 1"
@@ -113,8 +126,6 @@ historia.add key: :second_round, texto: second_round, font_size: 60, color: 'yel
 historia.movimentar_text key: :second_round, x: Window.width / 2.7, y: Window.height / 2
 historia.add key: :three_round, texto: three_round, font_size: 60, color: 'purple'
 historia.movimentar_text key: :three_round, x: Window.width / 2.6, y: Window.height / 2
-historia.add key: :final_round, texto: final_round, font_size: 60, color: 'red'
-historia.movimentar_text key: :final_round, x: Window.width / 2.55, y: Window.height / 2
 historia.add key: :text_1_win, texto: text_1_win, font_size: 60, color: 'orange'
 historia.movimentar_text key: :text_1_win, x: Window.width / 8, y: Window.height / 2
 historia.add key: :text_2_win, texto: text_2_win, font_size: 60, color: 'orange'
@@ -137,6 +148,8 @@ game.add scenery: scenery
 game.add historia: historia
 #### FIM ####
 
+game.historia.mostra_intro? resp:true
+
 #### Movimentos capturados ####
 keyboard_inputs_1 = []
 keyboard_inputs_2 = []
@@ -147,7 +160,7 @@ keyboard_inputs_2 = []
 ##### CAPTURA DO KEYBOARD #####
 
 on :key_held do |event|
-  if ('asdw'.include? event.key) && (keyboard_inputs_1.size) < 4
+  if ('asdw2'.include? event.key) && (keyboard_inputs_1.size) < 4
     keyboard_inputs_1 << event.key
   elsif (['left', 'right', 'up', 'down'].include? event.key) && (keyboard_inputs_2.size) < 4
     keyboard_inputs_2 << event.key
@@ -157,15 +170,13 @@ on :key_held do |event|
 end
 
 on :key_down do |event|
-  if event.key == 'return'
-    pause.add
-    #loop do
-    #  x = gets
-    #end
-  end
   if 'g' == event.key
     keyboard_inputs_1 << event.key
-  elsif 'keypad 0' == event.key
+  elsif 'keypad 1' == event.key
+    keyboard_inputs_2 << event.key
+  elsif 'h' == event.key
+    keyboard_inputs_1 << event.key
+  elsif 'keypad 3' == event.key
     keyboard_inputs_2 << event.key
   end
 end
