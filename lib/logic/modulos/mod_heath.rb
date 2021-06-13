@@ -29,6 +29,10 @@ class Logic
             @objects[:stats_basic].speed = 5
         end
 
+        def reset_death!
+            @objects[:stats_basic].deaths = 0
+        end
+
         private
         def corazon_down
             @objects[:corazon].width = @objects[:corazon].width_base * @objects[:stats_basic].life / 100

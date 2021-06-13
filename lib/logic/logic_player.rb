@@ -9,12 +9,17 @@ class Logic
         def add(key:, value:)
             @objects[key] = value
         end 
-
+        
         def reload!
             @objects[:animation].x = (Window.width) * 0.1
             @objects[:animation].y = (Window.height) * 0.6
             stop_hero_animation
             revive!
+        end
+        
+        def retry!
+            reload!
+            reset_death!
         end
 
         def shadow_location

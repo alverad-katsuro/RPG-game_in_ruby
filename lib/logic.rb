@@ -26,6 +26,12 @@ class Logic
 	end
 	#### FIM ####
 
+	def try_again!
+		revive!
+		@player_one.retry!
+		@player_two.retry!
+	end
+	
 	def revive!
 		unless Time.now - @clock_dead < 5
 			@player_one.reload!
