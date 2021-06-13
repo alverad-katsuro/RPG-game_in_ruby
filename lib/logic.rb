@@ -7,7 +7,7 @@ class Logic
 		@player_two = player_two unless player_two == nil
 		@scenery = scenery unless scenery == nil
 		@historia = historia unless historia == nil
-		@text_on = true
+		@text_on = false
 		@clock_dead = nil
 		@round = 1
 		@placar = "00"

@@ -12,6 +12,7 @@ require_relative './lib/background/shadow.rb'
 require_relative './lib/background/clouds_big.rb'
 require_relative './lib/background/clouds_medium.rb'
 require_relative './lib/background/cloud_small.rb'
+require_relative './lib/background/life.rb'
 require_relative './lib/characters/warrior.rb'
 require_relative './lib/logic.rb'
 require_relative './lib/logic/logic_scenery.rb'
@@ -68,6 +69,7 @@ player_one.add key: :animation, value: hero_one
 player_one.add key: :stats_basic, value: Logic::Hero.new
 player_one.add key: :key_map, value: Logic::Controls::Auxiliar::Keyboard_Map_One
 player_one.add key: :shadow, value: Graphics::Shadow.new
+player_one.add key: :corazon, value: Graphics::Corazon.new
 player_one.add key: :songs_atk, value:[Sound.new("./assets/songs/atk01.mp3"), Sound.new("./assets/songs/atk02.mp3")]
 player_one.add key: :songs_defend, value:[Sound.new("./assets/songs/def01.mp3"), Sound.new("./assets/songs/def02.mp3"),
                                           Sound.new("./assets/songs/def03.mp3"), Sound.new("./assets/songs/def04.mp3")
@@ -87,6 +89,7 @@ player_two.add key: :animation, value: hero_two
 player_two.add key: :stats_basic, value: Logic::Hero.new
 player_two.add key: :key_map, value: Logic::Controls::Auxiliar::Keyboard_Map_Two
 player_two.add key: :shadow, value: Graphics::Shadow.new
+player_two.add key: :corazon, value: Graphics::Corazon.new(x_posi: 0.8)
 player_two.add key: :songs_atk, value:[Sound.new("./assets/songs/atk01.mp3"), Sound.new("./assets/songs/atk02.mp3")]
 player_two.add key: :songs_defend, value:[Sound.new("./assets/songs/def01.mp3"), Sound.new("./assets/songs/def02.mp3"),
                                           Sound.new("./assets/songs/def03.mp3"), Sound.new("./assets/songs/def04.mp3")
@@ -100,44 +103,8 @@ player_two.add_modulos modulos: [
 ###### PLAYER CONSTRUC END ######
 
 #### CRIANDO HISTORIA ####
-intro = "Era uma vez.....
-Duas Nações que estavam em uma guerra sangrenta e para evitar o exterminio de todos
-seus cidadões, recrutados a força para guerra, decidiram enviar gladiadores para
-decidir o futuro de seus respectivos Estados. Foi decido que haveria 3 combates,
-quem ganhasse dois destes combates poderia fazer o que quiser com o outro estado,
-seja escravizar seja colonizar.
 
-Agora é sua oportunidade de defender sua Patria!!!!!!."
-first_round = "First Round"
-second_round = "Second Round"
-three_round = "Final Round"
-placar_0_0 = "0 x 0"
-placar_1_0 = "1 x 0"
-placar_0_1 = "0 x 1"
-placar_1_1 = "1 x 1"
-text_1_win = "O Estado localizado ao Oeste Ganhou!!!!!!"
-text_2_win = "O Estado localizado ao Leste Ganhou!!!!!!"
-historia = Logic::Text_Organize.new
-historia.add key: :intro, texto: intro, font_size: 30, color: 'blue'
-historia.movimentar_text key: :intro, x: Window.width / 6, y: Window.height / 3
-historia.add key: :first_round, texto: first_round, font_size: 60, color: 'green'
-historia.movimentar_text key: :first_round, x: Window.width / 2.55, y: Window.height / 2
-historia.add key: :second_round, texto: second_round, font_size: 60, color: 'yellow'
-historia.movimentar_text key: :second_round, x: Window.width / 2.7, y: Window.height / 2
-historia.add key: :three_round, texto: three_round, font_size: 60, color: 'purple'
-historia.movimentar_text key: :three_round, x: Window.width / 2.6, y: Window.height / 2
-historia.add key: :text_1_win, texto: text_1_win, font_size: 60, color: 'orange'
-historia.movimentar_text key: :text_1_win, x: Window.width / 8, y: Window.height / 2
-historia.add key: :text_2_win, texto: text_2_win, font_size: 60, color: 'orange'
-historia.movimentar_text key: :text_2_win, x: Window.width / 8, y: Window.height / 2
-historia.add key: :placar_0_0, texto: placar_0_0, font_size: 60, color: 'silver'
-historia.movimentar_text key: :placar_0_0, x: Window.width / 2.2, y: Window.height / 1.7
-historia.add key: :placar_1_0, texto: placar_1_0, font_size: 60, color: 'silver'
-historia.movimentar_text key: :placar_1_0, x: Window.width / 2.2, y: Window.height / 1.7
-historia.add key: :placar_0_1, texto: placar_0_1, font_size: 60, color: 'silver'
-historia.movimentar_text key: :placar_0_1, x: Window.width / 2.2, y: Window.height / 1.7
-historia.add key: :placar_1_1, texto: placar_1_1, font_size: 60, color: 'silver'
-historia.movimentar_text key: :placar_1_1, x: Window.width / 2.2, y: Window.height / 1.7
+historia = create_history
 #### FIM ####
 
 ##### Adicionando os componentes ao Game ######
