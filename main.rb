@@ -53,8 +53,6 @@ music = Music.new("./assets/songs/music.mp3")
 music.play
 #### FIM ####
 
-
-
 #### Tela do pause ####
 #pause = Graphics::Pause.new
 #pause.remove

@@ -7,7 +7,7 @@ class Logic
 		@player_two = player_two unless player_two == nil
 		@scenery = scenery unless scenery == nil
 		@historia = historia unless historia == nil
-		@text_on = false
+		@text_on = true
 		@clock_dead = nil
 		@round = 1
 		@placar = "00"
@@ -41,7 +41,6 @@ class Logic
 	def logic_show_text
 		@placar = atualiza_placar
 		unless @player_one.objects[:stats_basic].vivo && @player_two.objects[:stats_basic].vivo || @clock_dead != nil || @placar.include?("2")
-			p 'entro'
 			@text_on = true
 			@round += 1
 			case @placar
@@ -149,7 +148,7 @@ class Logic
 		if @player_one.objects[:stats_basic].vivo
 			@player_one.hero_attack
 			if @player_one.objects[:stats_basic].action_now == :attacking && colisao? && @player_one.objects[:stats_basic].vivo && !@text_on && (hero_seeing_oponent? p1: @player_one, p2: @player_two)
-				unless @player_two.objects[:stats_basic].action_now == :defend
+				unless @player_two.objects[:stats_basic].action_now == :defend && @player_one.objects[:stats_basic].direction_now != @player_two.objects[:stats_basic].direction_now
 					@player_two.life_down
 					@player_two.hurt_animation
 					empurado(player: @player_two, direction: @player_one.objects[:stats_basic].direction_now)
@@ -167,7 +166,7 @@ class Logic
 		if @player_two.objects[:stats_basic].vivo
 			@player_two.hero_attack
 			if @player_two.objects[:stats_basic].action_now == :attacking && colisao? && @player_two.objects[:stats_basic].vivo &&!@text_on && (hero_seeing_oponent? p1: @player_two, p2: @player_one)
-				unless @player_one.objects[:stats_basic].action_now == :defend
+				unless @player_one.objects[:stats_basic].action_now == :defend && @player_one.objects[:stats_basic].direction_now != @player_two.objects[:stats_basic].direction_now
 					@player_one.life_down
 					@player_one.hurt_animation
 					empurado(player: @player_one, direction: @player_two.objects[:stats_basic].direction_now)
@@ -243,7 +242,6 @@ class Logic
 		when :bottom
 			player.hero_y_modi(vertical: :bottom, dash: 6.0)
 		end
-		life_now
 	end
 	#### FIM ####
 
