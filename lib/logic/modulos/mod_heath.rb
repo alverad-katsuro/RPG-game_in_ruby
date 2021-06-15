@@ -37,7 +37,6 @@ class Logic
         def corazon_down
             @objects[:corazon].width = @objects[:corazon].width_base * @objects[:stats_basic].life / 100
             @objects[:corazon].clip_width = @objects[:corazon].width_base * @objects[:stats_basic].life / 100
-            puts "wid #{@objects[:corazon].width}, clip #{@objects[:corazon].clip_width}"
             @objects[:corazon].remove unless @objects[:corazon].width > 0 && @objects[:corazon].clip_width > 0
         end
     end

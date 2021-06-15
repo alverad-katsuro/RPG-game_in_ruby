@@ -7,7 +7,7 @@ class Logic
 		@player_two = player_two unless player_two == nil
 		@scenery = scenery unless scenery == nil
 		@historia = historia unless historia == nil
-		@text_on = true
+		@text_on = false
 		@clock_dead = nil
 		@round = 1
 		@placar = "00"
@@ -155,9 +155,13 @@ class Logic
 			@player_one.hero_attack
 			if @player_one.objects[:stats_basic].action_now == :attacking && colisao? && @player_one.objects[:stats_basic].vivo && !@text_on && (hero_seeing_oponent? p1: @player_one, p2: @player_two)
 				unless @player_two.objects[:stats_basic].action_now == :defend && @player_one.objects[:stats_basic].direction_now != @player_two.objects[:stats_basic].direction_now
-					@player_two.life_down
-					@player_two.hurt_animation
-					empurado(player: @player_two, direction: @player_one.objects[:stats_basic].direction_now)
+					if (@player_two.objects[:stats_basic].direction_now == :left && @player_one.objects[:stats_basic].direction_now == :right || @player_two.objects[:stats_basic].direction_now == :right) && @player_one.objects[:stats_basic].direction_now == :left && @player_two.objects[:stats_basic].action_now == :attacking && @player_one.objects[:stats_basic].action_now == :attacking
+						attack_simutaneo
+					else
+						@player_two.hurt_animation
+						@player_two.life_down
+						empurado(player: @player_two, direction: @player_one.objects[:stats_basic].direction_now)
+					end
 				else
 					@player_one.objects[:songs_defend][rand(@player_one.objects[:songs_defend].size)].play
 					empurado(player: @player_one, direction: @player_two.objects[:stats_basic].direction_now)				
@@ -173,11 +177,14 @@ class Logic
 			@player_two.hero_attack
 			if @player_two.objects[:stats_basic].action_now == :attacking && colisao? && @player_two.objects[:stats_basic].vivo &&!@text_on && (hero_seeing_oponent? p1: @player_two, p2: @player_one)
 				unless @player_one.objects[:stats_basic].action_now == :defend && @player_one.objects[:stats_basic].direction_now != @player_two.objects[:stats_basic].direction_now
-					@player_one.life_down
-					@player_one.hurt_animation
-					empurado(player: @player_one, direction: @player_two.objects[:stats_basic].direction_now)
+					if (@player_two.objects[:stats_basic].direction_now == :left && @player_one.objects[:stats_basic].direction_now == :right || @player_two.objects[:stats_basic].direction_now == :right && @player_one.objects[:stats_basic].direction_now == :left) && @player_two.objects[:stats_basic].action_now == :attacking && @player_one.objects[:stats_basic].action_now == :attacking
+						attack_simutaneo
+					else
+						@player_one.hurt_animation
+						@player_one.life_down
+						empurado(player: @player_one, direction: @player_two.objects[:stats_basic].direction_now)
+					end
 				else
-					p 'entro atk j2'
 					@player_two.objects[:songs_defend][rand(@player_two.objects[:songs_defend].size)].play
 					empurado(player: @player_two, direction: @player_one.objects[:stats_basic].direction_now)
 				end
@@ -189,6 +196,13 @@ class Logic
 	###### FIM CAPTURA DE MOVIMENTO ######
 
 	private ##### FUNCOES USADAS PELOS METODOS ACIMA
+
+	def attack_simutaneo
+		empurado(player: @player_two, direction: @player_one.objects[:stats_basic].direction_now)
+		empurado(player: @player_one, direction: @player_two.objects[:stats_basic].direction_now)
+		@player_two.life_down
+		@player_one.life_down
+	end
 
 	#### EU TENHO SOMBRA ####
 	def shadow!
