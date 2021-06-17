@@ -204,7 +204,7 @@ class Logic
 	def mod_remove_kb(kb:, teclas:[], obj:[])
 		remove_coll(kb, teclas[0]) unless obj[0].y < obj[1].y
 		remove_coll(kb, teclas[1]) unless obj[0].y > obj[1].y
-		remove_coll(kb, teclas[2]) unless obj[0].y < obj[1].x
+		remove_coll(kb, teclas[2]) unless obj[0].x < obj[1].x
 		remove_coll(kb, teclas[3]) unless obj[0].x > obj[1].x
 	end
 
