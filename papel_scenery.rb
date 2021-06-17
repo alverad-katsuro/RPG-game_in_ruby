@@ -45,7 +45,6 @@ scenery.add(:clouds_big, Graphics::CloudBig.new)
 scenery.add(:clouds_med, Graphics::CloudMed.new)
 scenery.add(:cloud_small, Graphics::CloudSmall.new)
 scenery.add(:tela, Graphics::Tela.new)
-scenery.add(:text, Graphics::Introducao.new)
 #### FIM ####
 
 update do

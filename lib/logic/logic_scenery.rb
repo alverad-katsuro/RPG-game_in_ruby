@@ -4,11 +4,13 @@ class Logic
 
         def initialize
             @objects = {time:Time.now}
+            @transicao = :dia
         end
 
         def update!
             mov_nuvem!
             reload_clouds!
+            #swuit_backgroud fator: 3
             horarios
         end
 
@@ -24,15 +26,17 @@ class Logic
 
         def horarios
             if (Time.now - @objects[:time]) <= 30
-                swuit_backgroud fator: -1
+                #swuit_backgroud fator: -1
             elsif ((Time.now) - @objects[:time]) > 30 && ((Time.now) - (@objects[:time]))<= 150
                 amanhecer!
             elsif (Time.now - @objects[:time]) > 150
                 anoitecer
+                swuit_backgroud fator: 1
                 if (Time.now - @objects[:time]) >=195
+                    swuit_backgroud fator: 1
                     moviment_moon
                     nuvem_opacity opacity: 1
-                    swuit_backgroud fator: -1 unless Time.now - @objects[:time] < 285
+                    #(swuit_backgroud fator: -1; puts "amanhecendo") unless Time.now - @objects[:time] < 265
                     (reload_clock; reload_moon_and_sun!) unless (Time.now - @objects[:time]) < 295
                 end
             end
@@ -40,10 +44,11 @@ class Logic
 
         def amanhecer!
             moviment_sun
+            swuit_backgroud fator: -1
             escurecer?(fator: -1)
         end
 
-        def escurecer?(fator:1) ### 1 - escurece, -1 = amanhece
+        def escurecer?(fator: 1) ### 1 = escurece, -1 = amanhece
             case fator
             when 1
                 if @objects[:tela].opacity != 0.7
@@ -61,7 +66,6 @@ class Logic
         def anoitecer
             if @objects[:sun].y + @objects[:sun].height < 0
                 escurecer?
-                swuit_backgroud
             end
             if @objects[:sun].y < 0 && (@objects[:moon].y + 100) > 0
                 moviment_moon
@@ -72,8 +76,25 @@ class Logic
         end
 
         def swuit_backgroud(fator: 1)
-            @objects[:sky].color.a += -0.0006 * fator
-            @objects[:sky_night].color.a += +0.0006 * fator
+            if @transicao == :dia && fator == 1
+                swuit_back_mod fator
+            elsif @transicao == :noite && fator == -1
+                swuit_back_mod fator
+            end
+            if @objects[:sky].color.a < 0
+                @objects[:sky].color.a = 0
+                @objects[:sky_night].color.a = 1
+                @transicao = :noite
+            elsif @objects[:sky].color.a > 1
+                @objects[:sky].color.a = 1
+                @objects[:sky_night].color.a = 0
+                @transicao = :dia
+            end
+        end
+
+        def swuit_back_mod fator
+            @objects[:sky].color.a += -0.0005 * fator
+            @objects[:sky_night].color.a += +0.0005 * fator
         end
 
         def moviment_sun
@@ -103,9 +124,9 @@ class Logic
         end
 
         def reload_moon_and_sun!
-            @objects[:sun].x = 15
+            @objects[:sun].x = -560*0.5
             @objects[:sun].y = 200
-            @objects[:moon].x = - @objects[:moon].width
+            @objects[:moon].x = -300*0.9
             @objects[:moon].y = 80
         end
 

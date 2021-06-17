@@ -119,13 +119,12 @@ class Logic
 	def action_player_one(k_b_1:)
 		posicao_z!
 		if (@player_one.objects[:stats_basic].action_now == :none || @player_one.objects[:stats_basic].action_now == :moving) && !@text_on && @player_one.objects[:stats_basic].vivo
-			if k_b_1.include? 'g'
-				k_b_1.clear
-				player_one_attack()
-			elsif k_b_1.include? 'h'
-				k_b_1.clear
-				@player_one.hero_defend
-			elsif k_b_1.size == 4
+			(k_b_1.clear; player_one_attack) if k_b_1.include? 'g'
+			(k_b_1.clear; @player_one.hero_defend) if k_b_1.include? 'h'
+			if k_b_1.size == 4 && !sobreposicao? #se não tiver sobreposto = false
+				@player_one.control_moviment(kb_inputs: k_b_1)
+			elsif sobreposicao?
+				mod_remove_kb(kb: k_b_1, teclas: ['w', 's', 'a', 'd'], obj: [@player_one.objects[:animation], @player_two.objects[:animation]])
 				@player_one.control_moviment(kb_inputs: k_b_1)
 			end
 		end
@@ -136,14 +135,13 @@ class Logic
 	def action_player_two(k_b_2:)
 		posicao_z!
 		if (@player_two.objects[:stats_basic].action_now == :none || @player_two.objects[:stats_basic].action_now == :moving) && !@text_on && @player_two.objects[:stats_basic].vivo
-			if k_b_2.include? 'keypad 1'
-				k_b_2.clear
-				player_two_attack()
-			elsif k_b_2.include? 'keypad 3'
-				k_b_2.clear
-				@player_two.hero_defend
-			elsif k_b_2.size == 4
-				@player_two.control_moviment(kb_inputs: (k_b_2))
+			(k_b_2.clear; player_two_attack) if k_b_2.include? 'keypad 1'
+			(k_b_2.clear; @player_two.hero_defend) if k_b_2.include? 'keypad 3'
+			if k_b_2.size == 4 && !sobreposicao?
+				@player_two.control_moviment(kb_inputs: k_b_2)
+			elsif sobreposicao?
+				mod_remove_kb(kb: k_b_2, teclas: ['up', 'down', 'left', 'right'], obj: [@player_two.objects[:animation], @player_one.objects[:animation]])
+				@player_two.control_moviment(kb_inputs: k_b_2)
 			end
 		end
 	end
@@ -196,6 +194,25 @@ class Logic
 	###### FIM CAPTURA DE MOVIMENTO ######
 
 	private ##### FUNCOES USADAS PELOS METODOS ACIMA
+
+	def remove_coll(array, key)
+		array.select! do |number|
+			number != key
+		end
+	end
+
+	def mod_remove_kb(kb:, teclas:[], obj:[])
+		remove_coll(kb, teclas[0]) unless obj[0].y < obj[1].y
+		remove_coll(kb, teclas[1]) unless obj[0].y > obj[1].y
+		remove_coll(kb, teclas[2]) unless obj[0].y < obj[1].x
+		remove_coll(kb, teclas[3]) unless obj[0].x > obj[1].x
+	end
+
+	def sobreposicao?
+		collision?(@player_one.objects[:animation], [@player_two.objects[:animation]])
+		#puts "P0 x #{@player_one.objects[:animation].x}, P0 y #{@player_one.objects[:animation].y}"
+		#puts "P1 x #{@player_two.objects[:animation].x}, P1 y #{@player_two.objects[:animation].y}"
+	end
 
 	def attack_simutaneo
 		empurado(player: @player_two, direction: @player_one.objects[:stats_basic].direction_now)
@@ -269,7 +286,7 @@ class Logic
 
 	#### POSSO COLIDIR? ####
 	def colisao?
-		if collision?(@player_one.objects[:animation], [@player_two.objects[:animation]])
+		if collision?(@player_one.objects[:animation], [@player_two.objects[:animation]], width: 90, height: 100)
 			true
 		else
 			false
@@ -278,21 +295,20 @@ class Logic
 	#### FIM ####
 
 	#### MOTOR DA COLISAO ####
-	def collision?(char, objects)
+	def collision?(char, objects, width: 70, height: 20)
 		Array(objects).any? do |object|
-			horizontal_overlap(char, object) && vertical_overlap(char, object)
+			horizontal_overlap(char, object, width) && vertical_overlap(char, object, height)
 		end
 	end
 	
-	def horizontal_overlap(char, object)
-		(char.x + (char.width) -80) > object.x &&
-		char.x < (object.x + (object.width) - 80)
+	def horizontal_overlap(char, object, width)
+		char.x < (object.x + width) && (char.x + width) > object.x
 	end
-	
-	def vertical_overlap(char, object)
-		(object.y + (object.height) -100) > char.y &&
-		object.y < (char.y + (char.height) -100)
+
+	def vertical_overlap(char, object, height)
+		(char.y + height) > object.y && char.y < (object.y + height)
 	end
+
 	#### FIM DO MOTOR DA COLISAO ####
 
 	###### FIM DA LOGICA DA COLISAO ######

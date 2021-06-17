@@ -51,6 +51,7 @@ scenery.add(:tela, Graphics::Tela.new)
 ##### MUSIC #####
 music = Music.new("./assets/songs/music.mp3")
 music.play
+music.loop = true
 #### FIM ####
 
 #### Tela do pause ####
