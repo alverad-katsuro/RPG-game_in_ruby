@@ -11,7 +11,7 @@ class Graphics
                 width: Window.width,
                 clip_width: 1920,
                 clip_x: 0,
-                a: 0.5,
+                opacity: 0.5,
                 z: 2,
             )
         end

@@ -7,7 +7,7 @@ class Graphics
                 './assets/cloud_small.png',
                 x: 0,
                 y: 0,
-                a: 0.5,
+                opacity: 0.5,
                 height: Window.height,
                 width: Window.width,
                 clip_x: 0,
